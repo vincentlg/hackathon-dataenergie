@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<script src='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
-
 </head>
 <!-- paris : 48.860033 2.340371 -->
 
@@ -38,6 +37,8 @@
 			<script>
 				mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXNjb2xvbWVyIiwiYSI6ImNqNGhmMTU5ZzAyOWYycW1rbWNneXF6ZHYifQ.OV_aDIpZ9VLqLQrib1qiTA';
 				var map = new mapboxgl.Map({
+					center: [2.340371, 48.860033],
+					zoom: 11,
 					container: 'map',
 					style: 'mapbox://styles/mapbox/light-v9'
 				});
