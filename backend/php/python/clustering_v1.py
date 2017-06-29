@@ -35,7 +35,7 @@ def calc_dist(origin, destination):
 # In[3]:
 
 # Recupere les coordonnees des Pr
-lDPr = joblib.load("Prospective.pkl")
+lDPr = joblib.load("/var/www/python/Prospective.pkl")
 postes = []
 
 for i in lDPr:
