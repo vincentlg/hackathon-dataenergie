@@ -46,7 +46,7 @@
 				});
 
 				function changePage() {
-					document.getElementById("content").innerHTML = '<object type="text/html" data="p1.html" ></object>';
+					document.getElementById("sectionChange").innerHTML = '<object type="text/html" data="p1.html" ></object>';
 				}
 
 				function getLocation() {
@@ -91,7 +91,6 @@
 							.setLngLat(marker.geometry.coordinates)
 							.addTo(map);
 					});
-					debugger;
 					map.flyTo({
 						center: [position.coords.longitude, position.coords.latitude],
 						zoom: 15,
