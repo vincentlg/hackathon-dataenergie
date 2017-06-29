@@ -12,23 +12,7 @@ class ProspectiveController extends Controller
 {
     public function index()
     {
-        //dd('ProspectiveController');
-        $path = resource_path().'/assets/json/Prospective.json';
-
-        //dd($path);
-        //dd(File::get($path));
-
-         return response()->json(json_decode(File::get($path)));
-
-        //$users = User::all();
-        //return response()->json($users);
-    }
-
-    public function store(StoreUser $request)
-    {
-        $user = new User($request->all());
-        $user->save();
-
-        return response()->json($user);
+      $path = resource_path().'/assets/json/Prospective.json';
+      return response()->json(json_decode(File::get($path)));
     }
 }

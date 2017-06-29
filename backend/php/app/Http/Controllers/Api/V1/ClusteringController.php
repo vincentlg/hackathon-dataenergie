@@ -5,31 +5,30 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUser;
 use App\User;
+use App;
+use File;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use File;
 
-class UserController extends Controller
+class ClusteringController extends Controller
 {
     public function index()
     {
-      $path = resource_path().'/assets/json/Users.json';
+      $path = resource_path().'/assets/json/Clustering.json';
       return response()->json(json_decode(File::get($path)));
     }
-
-    public function index_backup()
+    public function index_old()
     {
-      //todo fixe this dirty section !
-      $process = new Process('sudo /root/anaconda3/envs/hack/bin/python /var/www/python/clustering_v1.py');
+      $process = new Process('/root/anaconda3/envs/hack/bin/python /var/www/python/clustering_v1.py');
       $process->run();
+
       // executes after the command finishes
       if (!$process->isSuccessful()) {
           throw new ProcessFailedException($process);
       }
 
-      $result = $process->getOutput();
-      $clean = substr($result, 0, strlen($result)-1);
-      return response()->json($clean);
+      return response()->json($process->getOutput());
+
     }
 
     public function store(StoreUser $request)
