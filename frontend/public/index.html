@@ -28,10 +28,12 @@
 			<div id="sectionChange" class="content">
 				<h1 style="letter-spacing: 5px;">Born.</h1>
 
-
-				<p class="major">Décidez où seront installées les futurs bornes de recharge de la ville de Paris. Un servive proposé par <img style="margin-bottom:-6px"
-					 width="200" src="images/logo_mairie_de_paris.jpg" /></p>
-
+				<p class="major">Donnez naissance à la mobilité électrique. Un servive proposé par <img style="margin-bottom:-6px" width="200" src="images/logo_mairie_de_paris.jpg"/> et <img style="margin-bottom:-3px" width="100" src="images/enedis.png" /></p>
+				<ol>
+					<li>Choisissez l’emplacement de votre borne</li>
+					<li>Nous fédérons vos demandes et étudions la faisabilité</li>
+					<li>Votre borne prend vie et vous gagnez un ticket d’utilisation privilégié</li>
+				</ol>
 				<ul class="actions vertical">
 					<li><a onclick="changePage(1)" href="#first" class="button big wide smooth-scroll-middle">Continuer</a></li>
 				</ul>
@@ -126,7 +128,10 @@
 						if (rawFile.readyState === 4) {
 							if (rawFile.status === 200 || rawFile.status == 0) {
 								var allText = rawFile.responseText;
-								document.getElementById("sectionChange").innerHTML = allText
+
+								container = document.getElementById("sectionChange");
+								container.innerHTML = allText;
+
 							}
 						}
 					}

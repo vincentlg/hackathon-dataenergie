@@ -8414,3 +8414,14 @@
 			#wrapper.divided > .invert:first-child {
 				box-shadow: none !important;
 			}
+/*
+			#sectionChange {
+        transition: all 1s;
+
+    }
+
+    #sectionChange.pre-animation {
+        opacity:0;
+
+    }
+*/
