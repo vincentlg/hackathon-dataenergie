@@ -7,7 +7,7 @@
 <html>
 
 <head>
-	<title>Story by HTML5 UP</title>
+	<title>Born.</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="assets/css/main.css" />
@@ -24,13 +24,15 @@
 		<!-- One -->
 		<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
 			<div id="content" class="content">
-				<h1>Story</h1>
-				<p class="major">A (modular, highly tweakable) responsive one-page template designed by <a href="https://html5up.net">HTML5 UP</a> and
-					released for free under the <a href="https://html5up.net/license">Creative Commons</a>.</p>
+				<h1>Born.</h1>
+
+
+				<p class="major">Décidez  où seront installées les futurs bornes de recharge de la ville de Paris. Un servive proposé par <img style="margin-bottom:-6px" width="200" src="images/logo_mairie_de_paris.jpg"/></p>
+
 				<ul class="actions vertical">
-					<li><a href="#first" class="button big wide smooth-scroll-middle">Get Started</a></li>
+					<li><a onclick="changePage()" href="#first" class="button big wide smooth-scroll-middle">Get Started</a></li>
 				</ul>
-				<button onclick="changePage()" class="button">ICI</button>
+
 			</div>
 			<div id="map" class="image">
 
@@ -44,7 +46,6 @@
 					style: 'mapbox://styles/mapbox/light-v9'
 				});
 				function changePage() {
-					console.log('ICICICIC');
 					document.getElementById("content").innerHTML = '<object type="text/html" data="p1.html" ></object>';
 				}
 			</script>
