@@ -28,7 +28,8 @@
 			<div id="sectionChange" class="content">
 				<h1 style="letter-spacing: 5px;">Born.</h1>
 
-				<p class="major">Donnez naissance à la mobilité électrique. Un servive proposé par <img style="margin-bottom:-6px" width="200" src="images/logo_mairie_de_paris.jpg"/> et <img style="margin-bottom:-3px" width="100" src="images/enedis.png" /></p>
+				<p class="major">Donnez naissance à la mobilité électrique. Un servive proposé par <img style="margin-bottom:-6px" width="200" src="images/logo_mairie_de_paris.jpg"
+					/> et <img style="margin-bottom:-3px" width="100" src="images/enedis.png" /></p>
 				<ol>
 					<li>Choisissez l’emplacement de votre borne</li>
 					<li>Nous fédérons vos demandes et étudions la faisabilité</li>
@@ -92,27 +93,25 @@
 					});
 					geoProspec.forEach(function (features) {
 						features.features.forEach(function (marker) {
-							setTimeout(function () {
-								var el = document.createElement('div');
-								el.className = 'marker';
-								el.style.backgroundImage = 'url(./images/elec.png)';
-								el.style.width = marker.properties.iconSize[0] + 'px';
-								el.style.height = marker.properties.iconSize[1] + 'px';
+							var el = document.createElement('div');
+							el.className = 'marker';
+							el.style.backgroundImage = 'url(./images/elec.png)';
+							el.style.width = marker.properties.iconSize[0] + 'px';
+							el.style.height = marker.properties.iconSize[1] + 'px';
 
-								new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
-									.setLngLat(marker.geometry.coordinates)
-									.addTo(map);
-								map.flyTo({
-									center: [marker.geometry.coordinates[0], marker.geometry.coordinates[1]],
-									zoom: 15,
-									bearing: 0,
-									speed: 0.8,
-									curve: 1,
-									easing: function (t) {
-										return t;
-									}
-								});
-							}, 800);
+							new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
+								.setLngLat(marker.geometry.coordinates)
+								.addTo(map);
+						});
+						map.flyTo({
+							center: [2.340371, 48.860033],
+							zoom: 11,
+							bearing: 0,
+							speed: 0.8,
+							curve: 1,
+							easing: function (t) {
+								return t;
+							}
 						});
 					});
 				}
