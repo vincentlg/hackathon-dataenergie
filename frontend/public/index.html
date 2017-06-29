@@ -45,6 +45,56 @@
 					container: 'map',
 					style: 'mapbox://styles/mapbox/light-v9'
 				});
+				var rawFile = new XMLHttpRequest();
+				rawFile.open("GET", 'http://0.0.0.0:8080/api/v1/prospectives', false);
+				rawFile.onreadystatechange = function () {
+					var prospectives = JSON.parse(rawFile.response);
+					updateProspecView(prospectives);
+				}
+				rawFile.send(null);
+
+				function updateProspecView(prop) {
+					var geo = [];
+					prop.forEach((elem) => {
+						console.log(elem);
+						geo.push({
+							"type": "FeatureCollection",
+							"features": [
+								{
+									"type": "Feature",
+									"properties": {
+										"message": "Foo",
+										"iconSize": [32, 32]
+									},
+									"geometry": {
+										"type": "Point",
+										"coordinates": [
+											elem.lng,
+											elem.lat
+										]
+									}
+								}
+							]
+						})
+					});
+					geo.forEach(function (features) {
+						console.log(features);
+						debugger;
+						features.features.forEach(function (marker) {
+							console.log(marker);
+							debugger;
+							var el = document.createElement('div');
+							el.className = 'marker';
+							el.style.backgroundImage = 'url(./images/elec.png)';
+							el.style.width = marker.properties.iconSize[0] + 'px';
+							el.style.height = marker.properties.iconSize[1] + 'px';
+
+							new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
+								.setLngLat(marker.geometry.coordinates)
+								.addTo(map);
+						});
+					});
+				}
 
 				function changePage() {
 					var rawFile = new XMLHttpRequest();
@@ -58,7 +108,6 @@
 						}
 					}
 					rawFile.send(null);
-					debugger;
 					//document.getElementById("sectionChange").innerHTML = '<object type="text/html" data="p1.html" ></object>';
 				}
 
@@ -96,10 +145,6 @@
 						el.style.width = marker.properties.iconSize[0] + 'px';
 						el.style.height = marker.properties.iconSize[1] + 'px';
 
-						el.addEventListener('click', function () {
-							window.alert(marker.properties.message);
-						});
-
 						new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
 							.setLngLat(marker.geometry.coordinates)
 							.addTo(map);
@@ -108,15 +153,8 @@
 						center: [position.coords.longitude, position.coords.latitude],
 						zoom: 15,
 						bearing: 0,
-
-						// These options control the flight curve, making it move
-						// slowly and zoom out almost completely before starting
-						// to pan.
-						speed: 0.8, // make the flying slow
-						curve: 1, // change the speed at which it zooms out
-
-						// This can be any easing function: it takes a number between
-						// 0 and 1 and returns another number between 0 and 1.
+						speed: 0.8,
+						curve: 1,
 						easing: function (t) {
 							return t;
 						}
