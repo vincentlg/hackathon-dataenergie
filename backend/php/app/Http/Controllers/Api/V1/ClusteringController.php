@@ -15,6 +15,7 @@ class ClusteringController extends Controller
     public function index()
     {
       $path = resource_path().'/assets/json/Clustering.json';
+
       return response()->json(json_decode(File::get($path)));
     }
     public function index_old()
