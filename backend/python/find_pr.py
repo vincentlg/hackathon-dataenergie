@@ -22,8 +22,8 @@ dfBornesElecParis.reset_index(drop=True, inplace=True)
 latitude = list(dfBornesElecParis['latitude'])
 longitude = list(dfBornesElecParis['longitude'])
 # On considere que seulement 10 bornes sont utilisees
-la = latitude[:10]
-lo = longitude[:10]
+la = latitude[10:20]
+lo = longitude[10:20]
 postes = []
 lDPr = []
 for i,j in zip(la,lo):
