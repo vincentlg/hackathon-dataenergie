@@ -32,7 +32,7 @@ def calc_dist(origin, destination):
 # In[3]:
 
 # Recupere les coordonnees des Pr
-lDPr = joblib.load("Prospective.pkl")
+lDPr = joblib.load("/var/www/python/Prospective.pkl")
 postes = []
 
 for i in lDPr:
@@ -112,7 +112,7 @@ for i in a.cluster_centers_:
             d = round(dist,4)
             clusterPP = poste
     lCLuterPP.append((coord, clusterPP))
-    
+
 clusterPr = pd.DataFrame(lCLuterPP, columns=["cluster","pr"])
 
 
@@ -145,4 +145,3 @@ for ind, row in clusterPr.iterrows():
     for i, r in o.iterrows():
         dUserPr[row["pr"]].append((r["latUser"], r["longUser"]))
 print(dUserPr)
-
