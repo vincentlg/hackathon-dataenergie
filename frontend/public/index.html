@@ -45,13 +45,15 @@
 					container: 'map',
 					style: 'mapbox://styles/mapbox/light-v9'
 				});
-				var rawFile = new XMLHttpRequest();
-				rawFile.open("GET", 'http://0.0.0.0:8080/api/v1/prospectives', false);
-				rawFile.onreadystatechange = function () {
-					var prospectives = JSON.parse(rawFile.response);
-					updateProspecView(prospectives);
+				function addProspect() {
+					var rawFile = new XMLHttpRequest();
+					rawFile.open("GET", 'http://0.0.0.0:8080/api/v1/prospectives', false);
+					rawFile.onreadystatechange = function () {
+						var prospectives = JSON.parse(rawFile.response);
+						updateProspecView(prospectives);
+					}
+					rawFile.send(null);
 				}
-				rawFile.send(null);
 
 				function updateProspecView(prop) {
 					var geo = [];
@@ -98,7 +100,7 @@
 
 				function changePage(num) {
 					var rawFile = new XMLHttpRequest();
-					rawFile.open("GET", 'p'+num+'.html', false);
+					rawFile.open("GET", 'p' + num + '.html', false);
 					rawFile.onreadystatechange = function () {
 						if (rawFile.readyState === 4) {
 							if (rawFile.status === 200 || rawFile.status == 0) {
@@ -108,7 +110,12 @@
 						}
 					}
 					rawFile.send(null);
-					//document.getElementById("sectionChange").innerHTML = '<object type="text/html" data="p1.html" ></object>';
+					if (num == 3) {
+						// TODO After algo
+					}
+					if (num == 1) {
+						addProspect();
+					}
 				}
 
 				function getLocation() {
@@ -151,7 +158,7 @@
 					});
 					map.flyTo({
 						center: [position.coords.longitude, position.coords.latitude],
-						zoom: 15,
+						zoom: 13,
 						bearing: 0,
 						speed: 0.8,
 						curve: 1,
