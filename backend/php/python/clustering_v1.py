@@ -7,11 +7,14 @@ import pandas as pd
 import random
 import math
 import json
+import sys
 
 from sklearn.cluster import KMeans
 from sklearn.externals import joblib
 
-
+args = sys.argv
+userLat, userLong = float(args[1]),float(args[2])
+print(userLat, userLong)
 # In[2]:
 
 # Fonction de calcul de distance entre deux coordonnees gps
@@ -67,6 +70,8 @@ for i in range(100):
     #r = (lat,long, nbVote, postePP[0],postePP[1], d)
     r = (lat,long)
     userdemand.append(r)
+
+userdemand.append((userLat, userLong))
 
 df = pd.DataFrame(userdemand, columns=["latUser","longUser"])
 

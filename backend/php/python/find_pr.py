@@ -39,7 +39,7 @@ st = json.dumps(lDPr)
 # In[3]:
 
 # sauvegarde le json des Pr
-with open("../php/resources/assets/json/Prospective.json", 'w') as f:
+with open("../resources/assets/json/Prospective.json", 'w') as f:
     f.write(st)
 print(st)
 
