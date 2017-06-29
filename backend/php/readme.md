@@ -27,3 +27,8 @@ http://0.0.0.0:8080
 
 # kill project
 docker-compose kill
+
+#python 
+Install anaconda for python 
+
+``https://docs.continuum.io/anaconda/install/linux``
