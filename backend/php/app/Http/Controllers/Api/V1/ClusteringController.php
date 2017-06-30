@@ -12,14 +12,16 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class ClusteringController extends Controller
 {
-    public function index()
+    public function index_old()
     {
       $path = resource_path().'/assets/json/Clustering.json';
 
       return response()->json(json_decode(File::get($path)));
     }
-    public function index_old()
+    public function index()
     {
+      
+
       $process = new Process('/root/anaconda3/envs/hack/bin/python /var/www/python/clustering_v1.py');
       $process->run();
 
