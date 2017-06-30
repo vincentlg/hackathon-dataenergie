@@ -51,6 +51,7 @@ botRight = (48.820147, 2.423716)
 
 # Creation d un jeu de donnees de votes simules
 with open("www/resources/assets/json/Users.json", 'r') as f:
+#with open("Users.json", 'r') as f:
     st = f.read()
 
 newstr = st.replace("[", "")
@@ -139,13 +140,18 @@ lUserPr = []
 for ind, row in clusterPr.iterrows():
     dUserPr = {}
     o = dff.loc[dff.pr == row["pr"]]
-    dUserPr['"lat"'] = row["pr"][0]
-    dUserPr['"lng"'] = row["pr"][1]
-    dUserPr['"points"'] = []
+    dUserPr["lat"] = row["pr"][0]
+    dUserPr["lng"] = row["pr"][1]
+    dUserPr["points"] = []
     for i, r in o.iterrows():
         dd = {}
-        dd['"lat"'] = r["latUser"]
-        dd['"lng"'] = r["longUser"]
-        dUserPr['"points"'].append(dd)
+        dd["lat"] = r["latUser"]
+        dd["lng"] = r["longUser"]
+        dUserPr["points"].append(dd)
     lUserPr.append(dUserPr)
-print(lUserPr)
+
+result = json.dumps(lUserPr)
+#(result)
+with open("www/resources/assets/json/Userspr.json", 'w') as f:
+    f.write(result)
+print(result)
