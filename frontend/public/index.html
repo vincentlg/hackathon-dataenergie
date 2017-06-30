@@ -150,8 +150,60 @@
 					if (num == 1) {
 						addProspect();
 					}
+					if (num == 3) {
+						rattachUser();
+					}
 				}
 				// -----------------------------------------
+
+				function rattachUser() {
+					var rawFile = new XMLHttpRequest();
+					rawFile.open("GET", 'http://localhost:8080/api/v1/clustering', false);
+					rawFile.onreadystatechange = function () {
+						var prospectives = JSON.parse(rawFile.response);
+
+						showLineCluster(prospectives);
+					}
+					rawFile.send(null);
+				}
+				function showLineCluster(clust) {
+					var idclust = 0;
+					clust.forEach((cl) => {
+						var count = 0;
+						cl.points.forEach((pts) => {
+							var routeIdMap = "route" + idclust + count
+							var route = {
+								"type": "FeatureCollection",
+								"features": [{
+									"type": "Feature",
+									"geometry": {
+										"type": "LineString",
+										"coordinates": [
+											[cl.lng, cl.lat],
+											[pts.lng, pts.lat]
+										]
+									}
+								}]
+							};
+
+							map.addSource(routeIdMap, {
+								"type": "geojson",
+								"data": route
+							});
+							map.addLayer({
+								"id": routeIdMap,
+								"source": routeIdMap,
+								"type": "line",
+								"paint": {
+									"line-width": 1,
+									"line-color": "#0000ff"
+								}
+							});
+							count++;
+						});
+						idclust++;
+					});
+				}
 
 				// Add users POINT
 				// -----------------------------------------
@@ -177,35 +229,39 @@
 					});
 					var count = 0;
 					geo.forEach(function (features) {
-						var id = "pointUSER" + count;
-						map.addSource(id, {
-							"type": "geojson",
-							"data": features
-						});
-						map.addLayer({
-							"id": id,
-							"source": id,
-							"type": "circle",
-							"paint": {
-								"circle-radius": 8,
-								"circle-color": "#0000ff"
-							}
-						});
-						/*features.features.forEach(function (marker) {
-							console.log(marker);
-							debugger;
-							var el = document.createElement('div');
-							el.className = 'marker';
-							el.style.backgroundImage = 'url(./images/users.png)';
-							el.style.width = marker.properties.iconSize[0] + 'px';
-							el.style.height = marker.properties.iconSize[1] + 'px';
+						setTimeout(() => {
+							var id = "pointUSER" + count;
+							map.addSource(id, {
+								"type": "geojson",
+								"data": features
+							});
+							map.addLayer({
+								"id": id,
+								"source": id,
+								"type": "circle",
+								"paint": {
+									"circle-radius": 8,
+									"circle-color": "#0000ff"
+								}
+							});
+							/*features.features.forEach(function (marker) {
+								console.log(marker);
+								debugger;
+								var el = document.createElement('div');
+								el.className = 'marker';
+								el.style.backgroundImage = 'url(./images/users.png)';
+								el.style.width = marker.properties.iconSize[0] + 'px';
+								el.style.height = marker.properties.iconSize[1] + 'px';
 
-							var marker = new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
-								.setLngLat(marker.geometry.coordinates)
-								.addTo(map);
-							userMarkerArray.push(marker);
-						});*/
-						count++;
+								var marker = new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
+									.setLngLat(marker.geometry.coordinates)
+									.addTo(map);
+								userMarkerArray.push(marker);
+							});*/
+
+
+							count++;
+						}, 1000)
 					});
 				}
 
@@ -220,7 +276,6 @@
 				// -----------------------------------------
 
 				function getLocation() {
-					debugger;
 					if (navigator.geolocation) {
 						navigator.geolocation.getCurrentPosition(showPosition);
 					} else {
@@ -276,12 +331,11 @@
 						/*userMarker = new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
 							.setLngLat(marker.geometry.coordinates)
 							.addTo(map);*/
-						var rawFile = new XMLHttpRequest();
-						rawFile.open("POST", 'http://localhost:8080/api/v1/users', false);
-						rawFile.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-						rawFile.setRequestHeader("Access-Control-Allow-Origin", "*");
+						var rawFile = createCORSRequest('POST', 'http://localhost:8080/api/v1/users');
+						//rawFile.open("POST", 'http://localhost:8080/api/v1/users', false);
+						//rawFile.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+						//rawFile.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 						rawFile.onreadystatechange = function (r) {
-							debugger;
 						}
 						let json = { "lat": "" + position.coords.latitude, "lng": "" + position.coords.longitude };
 						debugger;
@@ -300,6 +354,51 @@
 					//map.zoomTo(15, { duration: 0.5, animate: true });
 				}
 				getLocation();
+				function createCORSRequest(method, url) {
+					var xhr = new XMLHttpRequest();
+					if ("withCredentials" in xhr) {
+						// XHR for Chrome/Firefox/Opera/Safari.
+						xhr.open(method, url, false);
+					} else if (typeof XDomainRequest != "undefined") {
+						// XDomainRequest for IE.
+						xhr = new XDomainRequest();
+						xhr.open(method, url, false);
+					} else {
+						// CORS not supported.
+						xhr = null;
+					}
+					return xhr;
+				}
+
+				// Helper method to parse the title tag from the response.
+				function getTitle(text) {
+					return text.match('<title>(.*)?</title>')[1];
+				}
+
+				// Make the actual CORS request.
+				function makeCorsRequest() {
+					// This is a sample server that supports CORS.
+					var url = 'http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html';
+
+					var xhr = createCORSRequest('GET', url);
+					if (!xhr) {
+						alert('CORS not supported');
+						return;
+					}
+
+					// Response handlers.
+					xhr.onload = function () {
+						var text = xhr.responseText;
+						var title = getTitle(text);
+						alert('Response from CORS request to ' + url + ': ' + title);
+					};
+
+					xhr.onerror = function () {
+						alert('Woops, there was an error making the request.');
+					};
+
+					xhr.send();
+				}
 				// -----------------------------------------
 			</script>
 		</section>
