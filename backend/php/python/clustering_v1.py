@@ -66,8 +66,8 @@ latList = []
 longList = []
 i=0
 while i < len(n4):
-    latList.append(float(n4[i].replace('"lat": ', "")))
-    longList.append(float(n4[i+1].replace('"lng": ', "")))
+    latList.append(float(n4[i].replace('"lat":', "")))
+    longList.append(float(n4[i+1].replace('"lng":', "")))
     i += 2
 
 df = pd.DataFrame()

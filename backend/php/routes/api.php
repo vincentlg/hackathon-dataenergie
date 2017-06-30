@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1', 'namespace' => 'Api\V1', 'middleware' => '\Barryvdh\Cors\HandleCors::class'], function () {
     $this->get('users', 'UserController@index');
-    $this->post('users', 'UserController@store');
+    $this->get('addusersloc', 'UserController@store');
     $this->get('prospectives', 'ProspectiveController@index');
     $this->get('clustering', 'ClusteringController@index');
 });

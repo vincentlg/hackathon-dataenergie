@@ -35,12 +35,13 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
-        $user = new User();
-        $user->lat = $request->lat;
-        $user->lng = $request->lng;
-        $user->save();
 
-        return response()->json($user);
+        $path = resource_path().'/assets/json/Users.json';
+        $array = json_decode(File::get($path));
+        //dd($array);
+        $result = array_push($array, json_decode('{"lat":'.$request->input('lat').',"lng":'.$request->input('lng').'}'));
+        File::put($path, json_encode($array));
+
+        return response()->json(json_encode($array));
     }
 }
