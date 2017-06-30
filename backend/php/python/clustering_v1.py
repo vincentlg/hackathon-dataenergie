@@ -4,17 +4,12 @@
 # In[1]:
 
 import pandas as pd
-import random
 import math
 import json
-import sys
 
 from sklearn.cluster import KMeans
 from sklearn.externals import joblib
 
-args = sys.argv
-userLat, userLong = float(args[1]),float(args[2])
-print(userLat, userLong)
 # In[2]:
 
 # Fonction de calcul de distance entre deux coordonnees gps
@@ -55,27 +50,29 @@ botRight = (48.820147, 2.423716)
 # In[5]:
 
 # Creation d un jeu de donnees de votes simules
-userdemand = []
+with open("www/resources/assets/json/Users.json", 'r') as f:
+#with open("Users.json", 'r') as f:
+    st = f.read()
 
-for i in range(100):
-    lat = round(random.uniform(48.820147, 48.902559),6)
-    long = round(random.uniform(2.255868, 2.423716),6)
-    #nbVote = random.randint(1,10)
-    coord = (lat,long)
-    d = 100000
-    for poste in postes:
-        dist = calc_dist(poste, coord)
-        if dist < d:
-            d = round(dist,4)
-            postePP = poste
-    #r = (lat,long, nbVote, postePP[0],postePP[1], d)
-    r = (lat,long)
-    userdemand.append(r)
+newstr = st.replace("[", "")
+nn1 = newstr.replace("]", "")
+nn2 = nn1.replace("{", "")
+nn = nn2.replace("}", "")
+nnn = nn.split("}")
 
-userdemand.append((userLat, userLong))
+n4 = nnn[0].split(",")
 
-df = pd.DataFrame(userdemand, columns=["latUser","longUser"])
+latList = []
+longList = []
+i=0
+while i < len(n4):
+    latList.append(float(n4[i].replace('"lat": ', "")))
+    longList.append(float(n4[i+1].replace('"lng": ', "")))
+    i += 2
 
+df = pd.DataFrame()
+df["latUser"] = latList
+df["longUser"] = longList
 
 # In[6]:
 
@@ -128,12 +125,9 @@ clusterPr = pd.DataFrame(lCLuterPP, columns=["cluster","pr"])
 
 lpr = []
 for ind, row in df.iterrows():
-#     print(row["latUser"],row["longUser"],row["cluster"])
-#     print(row["cluster"])
     pr = clusterPr.loc[clusterPr["cluster"] == row["cluster"]]
     i = pr.index[0]
     lpr.append(pr["pr"][i])
-#print(len(lpr))
 
 dff = df.copy()
 del dff["cluster"]
@@ -155,4 +149,9 @@ for ind, row in clusterPr.iterrows():
         dd["lng"] = r["longUser"]
         dUserPr["points"].append(dd)
     lUserPr.append(dUserPr)
-print(lUserPr)
+
+result = json.dumps(lUserPr)
+#(result)
+with open("www/resources/assets/json/Userspr.json", 'w') as f:
+    f.write(result)
+print(result)
