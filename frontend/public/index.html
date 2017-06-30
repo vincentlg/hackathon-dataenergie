@@ -91,21 +91,29 @@
 							]
 						})
 					});
+					var count = 0;
 					geoProspec.forEach(function (features) {
 						features.features.forEach(function (marker) {
-							var el = document.createElement('div');
-							el.className = 'marker';
-							el.style.backgroundImage = 'url(./images/elec.png)';
-							el.style.width = marker.properties.iconSize[0] + 'px';
-							el.style.height = marker.properties.iconSize[1] + 'px';
-
-							new mapboxgl.Marker(el, { offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2] })
-								.setLngLat(marker.geometry.coordinates)
-								.addTo(map);
+							var id = "point" + count;
+							debugger;
+							map.addSource(id, {
+								"type": "geojson",
+								"data": features
+							});
+							map.addLayer({
+								"id": id,
+								"source": id,
+								"type": "circle",
+								"paint": {
+									"circle-radius": 15,
+									"circle-color": "#00a453"
+								}
+							});
+							count++;
 						});
 						map.flyTo({
 							center: [2.340371, 48.860033],
-							zoom: 11,
+							zoom: 11.5,
 							bearing: 0,
 							speed: 0.8,
 							curve: 1,
@@ -170,7 +178,7 @@
 					var count = 0;
 					geo.forEach(function (features) {
 						debugger;
-						var id = "point" + count;
+						var id = "pointUSER" + count;
 						map.addSource(id, {
 							"type": "geojson",
 							"data": features
@@ -181,7 +189,7 @@
 							"type": "circle",
 							"paint": {
 								"circle-radius": 10,
-								"circle-color": "#007cbf"
+								"circle-color": "#ffff00"
 							}
 						});
 						/*features.features.forEach(function (marker) {
