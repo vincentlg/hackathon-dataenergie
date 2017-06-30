@@ -36,6 +36,7 @@ def calc_dist(origin, destination):
 
 # Recupere les coordonnees des Pr
 lDPr = joblib.load("/var/www/python/Prospective.pkl")
+#lDPr = joblib.load("Prospective.pkl")
 postes = []
 
 for i in lDPr:
@@ -141,12 +142,17 @@ dff["pr"] = lpr
 
 # In[10]:
 
-# Creation d un dict de sortie
-dUserPr = {}
+lUserPr = []
 for ind, row in clusterPr.iterrows():
+    dUserPr = {}
     o = dff.loc[dff.pr == row["pr"]]
-    #print(o)
-    dUserPr[row["pr"]] = []
+    dUserPr["lat"] = row["pr"][0]
+    dUserPr["lng"] = row["pr"][1]
+    dUserPr["points"] = []
     for i, r in o.iterrows():
-        dUserPr[row["pr"]].append((r["latUser"], r["longUser"]))
-print(dUserPr)
+        dd = {}
+        dd["lat"] = r["latUser"]
+        dd["lng"] = r["longUser"]
+        dUserPr["points"].append(dd)
+    lUserPr.append(dUserPr)
+print(lUserPr)
