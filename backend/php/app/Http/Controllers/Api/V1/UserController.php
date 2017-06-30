@@ -8,6 +8,7 @@ use App\User;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use File;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -32,9 +33,12 @@ class UserController extends Controller
       return response()->json($clean);
     }
 
-    public function store(StoreUser $request)
+    public function store(Request $request)
     {
-        $user = new User($request->all());
+        //dd($request->all());
+        $user = new User();
+        $user->lat = $request->lat;
+        $user->lng = $request->lng;
         $user->save();
 
         return response()->json($user);
