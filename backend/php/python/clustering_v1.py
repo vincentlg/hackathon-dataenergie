@@ -50,7 +50,7 @@ botRight = (48.820147, 2.423716)
 # In[5]:
 
 # Creation d un jeu de donnees de votes simules
-with open("www/resources/assets/json/Users.json", 'r') as f:
+with open("/var/www/resources/assets/json/Users.json", 'r') as f:
 #with open("Users.json", 'r') as f:
     st = f.read()
 
@@ -152,6 +152,6 @@ for ind, row in clusterPr.iterrows():
 
 result = json.dumps(lUserPr)
 #(result)
-with open("www/resources/assets/json/Userspr.json", 'w') as f:
+with open("/var/www/resources/assets/json/Userspr.json", 'w') as f:
     f.write(result)
 print(result)
