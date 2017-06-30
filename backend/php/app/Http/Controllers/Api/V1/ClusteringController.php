@@ -20,9 +20,9 @@ class ClusteringController extends Controller
     }
     public function index()
     {
-      
 
-      $process = new Process('/root/anaconda3/envs/hack/bin/python /var/www/python/clustering_v1.py');
+
+      $process = new Process('sudo /root/anaconda3/envs/hack/bin/python /var/www/python/clustering_v1.py');
       $process->run();
 
       // executes after the command finishes
@@ -30,7 +30,8 @@ class ClusteringController extends Controller
           throw new ProcessFailedException($process);
       }
 
-      return response()->json($process->getOutput());
+
+      return response()->json(json_decode($process->getOutput()));
 
     }
 
